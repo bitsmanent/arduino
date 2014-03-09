@@ -11,7 +11,7 @@ char buf[1024];
 
 struct cvt_t {
 	char c;
-	int i;
+	long int i;
 };
 
 struct cvt_t cvtmap[] = {
@@ -108,7 +108,7 @@ void
 cvtrun(char *s) {
 	struct cvt_t *cvt;
 	int i, cvti, len = slen(s);
-	char c, str[8] = {0};
+	char c, str[8];
 
 	for(i = 0; i < len; ++i) {
 		c = s[i];
@@ -120,9 +120,7 @@ cvtrun(char *s) {
 		if(!cvt)
 			continue;
 
-		memset(str, '\0', sizeof str);
-		/* XXX Buffer overflow for: '.', ',' and '*' characters. */
-		snprintf(str, sizeof str, "%d", cvt->i);
+		snprintf(str, sizeof str, "%ld", cvt->i);
 
 		out(str);
 	}
