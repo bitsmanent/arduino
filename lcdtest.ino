@@ -34,14 +34,14 @@ handleserial(void) {
 			break;
 		case 'B':
 			if((backlight += BACKLIGHT_INC) > BACKLIGHT_MAX)
-				contrast = BACKLIGHT_MAX;
+				backlight = BACKLIGHT_MAX;
 			analogWrite(LCD_PIN_BACKLIGHT, contrast);
 			Serial.print("Backlight: ");
 			Serial.println(backlight);
 			break;
 		case 'b':
 			if((backlight -= BACKLIGHT_INC) < 0)
-				contrast = 0;
+				backlight = 0;
 			analogWrite(LCD_PIN_BACKLIGHT, contrast);
 			Serial.print("Backlight: ");
 			Serial.println(backlight);
