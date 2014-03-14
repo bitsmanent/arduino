@@ -1,5 +1,3 @@
-/* cvtmap.c */
-
 #define PIN		9
 #define FREQ		540
 #define DELAY		50
