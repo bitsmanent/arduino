@@ -21,6 +21,7 @@ static int contrast = CONTRAST_DEF;
 static int backlight = BACKLIGHT_DEF;
 static int blink;
 static int autoscroll;
+static int lcdstate = 1; /* on, off */
 static char buf[1024]; /* command buffer */
 static char serialC;
 
@@ -117,21 +118,33 @@ handleserial(void) {
 			break;
 
 		case 'a':
+			autoscroll = !autoscroll;
 			if(autoscroll) {
-				lcd.noAutoscroll();
-				Serial.println("Autoscroll is OFF");
-			}
-			else {
 				lcd.autoscroll();
 				Serial.println("Autoscroll is ON");
 			}
-			autoscroll = !autoscroll;
+			else {
+				lcd.noAutoscroll();
+				Serial.println("Autoscroll is OFF");
+			}
 			break;
 
 		case 'i':
 			Mode = ModeInsert;
 			Serial.write("\b\b");
 			Serial.print(PS2);
+			break;
+
+		case 'd':
+			lcdstate = !lcdstate;
+			if(lcdstate) {
+				lcd.display();
+				Serial.println("Display is ON");
+			}
+			else {
+				lcd.noDisplay();
+				Serial.println("Display is OFF");
+			}
 			break;
 
 		default:
@@ -160,6 +173,11 @@ setup(void) {
 		lcd.autoscroll();
 	else
 		lcd.noAutoscroll();
+	
+	if(lcdstate)
+		lcd.display();
+	else
+		lcd.noDisplay();
 
 	lcd.write("Hello!");
 	Serial.print(PS1);
